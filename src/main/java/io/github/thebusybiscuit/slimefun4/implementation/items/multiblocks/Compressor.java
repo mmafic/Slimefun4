@@ -48,6 +48,9 @@ public class Compressor extends MultiBlockMachine {
 
         recipes.add(new ItemStack(Material.CHARCOAL, 4));
         recipes.add(new ItemStack(Material.COAL));
+
+        recipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
+        recipes.add(new ItemStack(Material.BLAZE_ROD));
     }
 
     @Override

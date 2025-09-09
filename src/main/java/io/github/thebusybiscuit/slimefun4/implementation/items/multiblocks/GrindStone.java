@@ -41,6 +41,9 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.BLAZE_ROD));
         recipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
 
+        recipes.add(new ItemStack(Material.MAGMA_CREAM));
+        recipes.add(new ItemStack(Material.BLAZE_POWDER));
+
         recipes.add(new ItemStack(Material.BONE));
         recipes.add(new ItemStack(Material.BONE_MEAL, 4));
 
