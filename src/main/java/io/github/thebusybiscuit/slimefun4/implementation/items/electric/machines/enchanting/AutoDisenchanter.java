@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 
 import javax.annotation.Nullable;
@@ -45,6 +46,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  *
  */
 public class AutoDisenchanter extends AbstractEnchantmentMachine {
+
+    private final Random random = new Random();
 
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -137,12 +140,42 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
 
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
             Enchantment enchantmentToTransfer = entry.getKey();
+            int currentLevel = entry.getValue();
+            
+            // Generate random number between 0-99 for probability calculation
+            int chance = random.nextInt(100);
+            
+            int newLevel;
+            if (chance < 20) {
+                // 20% chance to keep enchantment at current level
+                newLevel = currentLevel;
+            } else if (chance < 50) {
+                // 30% chance to go down 1 level
+                newLevel = currentLevel - 1;
+                if (newLevel <= 0) {
+                    // If enchantment doesn't have enough levels, it is lost
+                    newLevel = 0;
+                }
+            } else if (chance < 80) {
+                // 30% chance to go down 2 levels
+                newLevel = currentLevel - 2;
+                if (newLevel <= 0) {
+                    // If enchantment doesn't have enough levels, it is lost
+                    newLevel = 0;
+                }
+            } else {
+                // 20% chance to lose enchantment completely
+                newLevel = 0;
+            }
+            
             boolean wasEnchantmentRemoved = itemMeta.removeEnchant(enchantmentToTransfer);
             boolean stillHasEnchantment = itemMeta.getEnchants().containsKey(enchantmentToTransfer);
 
             // Prevent future enchantment duplication (#3837)
             if (wasEnchantmentRemoved && !stillHasEnchantment) {
-                meta.addStoredEnchant(enchantmentToTransfer, entry.getValue(), true);
+                if (newLevel > 0) {
+                    meta.addStoredEnchant(enchantmentToTransfer, newLevel, true);
+                }
             } else {
                 // Get Enchantment Name
                 Slimefun.logger().log(Level.SEVERE, "AutoDisenchanter has failed to remove enchantment \"{0}\"", enchantmentToTransfer.getKey().getKey());
@@ -156,7 +189,8 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
     private boolean isDisenchantable(@Nullable ItemStack item) {
         if (item != null && !item.getType().isAir() && item.getType() != Material.BOOK && !hasIgnoredLore(item)) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
-            return sfItem == null || sfItem.isDisenchantable();
+            // return sfItem == null || sfItem.isDisenchantable();
+            return sfItem == null;
         } else {
             return false;
         }
