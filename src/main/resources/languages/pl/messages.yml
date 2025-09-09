@@ -176,6 +176,7 @@ machines:
     pick-a-floor: '&3- Wybierz piętro-'
     current-floor: '&eTo jest piętro, na którym aktualnie jesteś:'
     click-to-teleport: '&eKliknij &7aby teleportować się na to piętro:'
+    not-powered: '&cWinda nie jest zasilana'
   TELEPORTER:
     teleporting: '&3Teleportuje...'
     teleported: '&3Przeteleportowano!'

@@ -259,6 +259,7 @@ machines:
     current-floor: '&e現在の階:'
     click-to-teleport: '&eクリック&7でこの階に移動:'
     editor-title: 'エレベーターの設定'
+    not-powered: '&cエレベーターに電力がありません'
   TELEPORTER:
     teleporting: '&3テレポート中…'
     teleported: '&3テレポート完了！'

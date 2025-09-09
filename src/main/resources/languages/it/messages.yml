@@ -189,6 +189,7 @@ machines:
     pick-a-floor: '&3- Scegli un piano -'
     current-floor: '&eQuesto è il piano su cui ti trovi attualmente:'
     click-to-teleport: '&eClick &7per teletrasportarti su questo piano:'
+    not-powered: '&cL''ascensore non è alimentato'
   TELEPORTER:
     teleporting: '&3Teletrasporto...'
     teleported: '&3Teletrasportato!'

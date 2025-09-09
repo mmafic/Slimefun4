@@ -256,6 +256,7 @@ machines:
     pick-a-floor: '&3- Selecciona un piso -'
     current-floor: '&eTe encuentras en este piso:'
     click-to-teleport: '&eClic &7para ir a este piso:'
+    not-powered: '&cEl ascensor no tiene energía'
   TELEPORTER:
     teleporting: '&3Teletransportando...'
     teleported: '&3¡Teletransportado!'

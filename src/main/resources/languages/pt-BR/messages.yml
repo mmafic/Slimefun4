@@ -203,6 +203,7 @@ machines:
     pick-a-floor: '&3- Escolha um andar -'
     current-floor: '&eEste é o andar em que você está atualmente:'
     click-to-teleport: '&eClique aqui &7para teleportar-se para o andar:'
+    not-powered: '&cElevador não está energizado'
   TELEPORTER:
     teleporting: '&3Teleportando-se...'
     teleported: '&3Teleportado(a)!'

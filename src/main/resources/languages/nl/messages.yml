@@ -257,6 +257,7 @@ machines:
     pick-a-floor: '&3- Kies een verdieping -'
     current-floor: '&eDit is de verdieping waar je nu bent:'
     click-to-teleport: '&eKlik &7om naar deze verdieping te gaan:'
+    not-powered: '&cLift heeft geen stroom'
   TELEPORTER:
     teleporting: '&3Bezig met teleporteren...'
     teleported: '&3Geteleporteerd!'

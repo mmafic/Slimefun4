@@ -23,8 +23,10 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -42,7 +44,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @author TheBusyBiscuit
  * @author Walshy
  */
-public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
+public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> implements EnergyNetComponent {
 
     /**
      * This is our key for storing the floor name.
@@ -179,8 +181,31 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     @ParametersAreNonnullByDefault
     private void teleport(Player player, ElevatorFloor floor) {
+        // Calculate energy required for this teleportation
+        int currentY = player.getLocation().getBlockY();
+        int destinationY = floor.getAltitude();
+        int energyRequired = calculateEnergyRequired(currentY, destinationY);
+        
+        // Get all floors in the elevator system
+        List<ElevatorFloor> floors = getFloors(floor.getLocation().getBlock());
+        
+        // Find an elevator plate with sufficient energy
+        Block poweredElevator = findPoweredElevator(floors, energyRequired);
+        
+        if (poweredElevator == null) {
+            // No elevator has sufficient energy
+            Slimefun.getLocalization().sendMessage(player, "machines.ELEVATOR.not-powered", true);
+            return;
+        }
+        
         Slimefun.runSync(() -> {
             users.add(player.getUniqueId());
+
+            // Consume energy from the powered elevator
+            ElevatorPlate elevatorItem = (ElevatorPlate) BlockStorage.check(poweredElevator);
+            if (elevatorItem != null) {
+                elevatorItem.removeCharge(poweredElevator.getLocation(), energyRequired);
+            }
 
             float yaw = player.getEyeLocation().getYaw() + 180;
 
@@ -224,6 +249,52 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         });
 
         menu.open(p);
+    }
+
+    @Override
+    public @Nonnull EnergyNetComponentType getEnergyComponentType() {
+        return EnergyNetComponentType.CONSUMER;
+    }
+
+    @Override
+    public int getCapacity() {
+        return 10000;
+    }
+
+    /**
+     * Calculates the energy required to travel from one floor to another.
+     * 
+     * @param currentY The current Y coordinate
+     * @param destinationY The destination Y coordinate
+     * @return The energy required for the teleportation
+     */
+    private int calculateEnergyRequired(int currentY, int destinationY) {
+        int distance = Math.abs(destinationY - currentY);
+        
+        if (destinationY > currentY) {
+            // Going up - 4 J per block
+            return distance * 4;
+        } else {
+            // Going down - 1 J per block
+            return distance * 1;
+        }
+    }
+
+    /**
+     * Finds an elevator plate in the same system that has sufficient energy.
+     * 
+     * @param floors The list of floors in the elevator system
+     * @param energyRequired The amount of energy required
+     * @return The block of an elevator plate with sufficient energy, or null if none found
+     */
+    private Block findPoweredElevator(@Nonnull List<ElevatorFloor> floors, int energyRequired) {
+        for (ElevatorFloor floor : floors) {
+            Block elevatorBlock = floor.getLocation().getBlock();
+            if (getCharge(elevatorBlock.getLocation()) >= energyRequired) {
+                return elevatorBlock;
+            }
+        }
+        return null;
     }
 
 }

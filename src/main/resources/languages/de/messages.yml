@@ -262,6 +262,7 @@ machines:
     enter-name: '&7Bitte gebe ins Chatfenser einen Namen für diese Etage ein. &f(Farbcodes werden unterstützt!)'
     named: '&2Diese Etage wurde erfolgreich &f"%floor%&f" &2genannt'
     editor-title: 'Konfiguriere diesen Aufzug'
+    not-powered: '&cAufzug ist nicht mit Strom versorgt'
   TELEPORTER:
     teleporting: '&3Du wirst teleportiert...'
     teleported: '&3Erfolgreich teleportiert!'

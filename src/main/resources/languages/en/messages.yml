@@ -325,6 +325,7 @@ machines:
     enter-name: '&7Please enter your desired floor name into your Chat. &f(Color Codes are supported!)'
     named: '&2Successfully named this floor: &f%floor%'
     editor-title: 'Configure this elevator'
+    not-powered: '&cElevator is not powered'
 
   TELEPORTER:
     teleporting: '&3Teleporting...'

@@ -263,6 +263,7 @@ machines:
     enter-name: '&7Veuillez entrer le nom de l''étage désiré dans votre Chat. &f(Les codes couleurs sont supportés !)'
     named: '&2Étage nommé avec succès : &f%floor%'
     editor-title: 'Configurer cet ascenseur'
+    not-powered: '&cL''ascenseur n''est pas alimenté'
   TELEPORTER:
     teleporting: '&3Téléportation...'
     teleported: '&3Téléportation terminée !'

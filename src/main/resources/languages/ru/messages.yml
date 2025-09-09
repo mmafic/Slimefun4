@@ -230,6 +230,7 @@ machines:
     current-floor: '&eВаш текущий этаж:'
     click-to-teleport: '&eНажмите &7для перемещения на этот этаж:'
     editor-title: 'Настроить этот лифт'
+    not-powered: '&cЛифт не запитан'
   TELEPORTER:
     teleporting: '&3Телепортация…'
     teleported: '&3Телепортировано!'

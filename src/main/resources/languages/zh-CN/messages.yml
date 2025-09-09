@@ -284,6 +284,7 @@ machines:
     enter-name: '&7请为你的楼层起个名字吧! &f(支持颜色代码)'
     named: '&2成功将此层命名为: &f%floor%'
     editor-title: '电梯设置'
+    not-powered: '&c电梯没有电力'
   TELEPORTER:
     teleporting: '&3传送中...'
     teleported: '&3传送成功!'
